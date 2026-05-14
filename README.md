@@ -1,7 +1,5 @@
 # AZLAN.DEV — SSH Terminal
 
-A pixel art themed portfolio with an interactive SSH terminal experience built with Next.js, TypeScript, and Tailwind CSS.
-
 ## Features
 
 - **Interactive Portfolio** — Clean, minimal design with Japanese pixel art aesthetics
@@ -104,9 +102,6 @@ npm run dev
 npm run build
 ```
 
-## Deployment
-
-Deploy easily on [Vercel](https://vercel.com):
 
 1. Push to GitHub
 2. Import repo on Vercel
