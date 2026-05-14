@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>﻿AZLAN AHMED - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f5f5f5;
+            --bg-card: #ffffff;
+            --text-primary: #222222;
+            --text-secondary: #555555;
+            --accent: #d32f2f; /* deep red */
+            --accent-light: #ffebee;
+            --border: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Subtle washi paper texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 20px);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+            padding: 0 1rem;
+        }
+        h1::before, h1::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+        }
+        h1::before { left: 0; transform: translateX(-50%); }
+        h1::after { right: 0; transform: translateX(50%); }
+        .contact-info {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: color 0.3s, border-bottom 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .contact-info a:hover {
+            color: #b71c1c;
+            border-bottom-color: var(--accent);
+        }
+        section {
+            margin-bottom: 5rem;
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-left: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        .section-content {
+            display: grid;
+            gap: 3rem;
+        }
+        .section-content.education {
+            grid-template-columns: 1fr;
+        }
+        .section-content.skills {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: var(--bg-card);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: default;
+            box-shadow: var(--shadow-sm);
+        }
+        .skill-tag:hover {
+            background: var(--accent);
+            color: var(--bg-card);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+            box-shadow: var(--shadow-sm);
+        }
+        .project-card:nth-child(2) { animation-delay: 0.1s; }
+        .project-card:nth-child(3) { animation-delay: 0.2s; }
+        .project-card:nth-child(4) { animation-delay: 0.3s; }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 1.8rem 1.8rem 0.8rem;
+            color: var(--text-primary);
+        }
+        .project-description {
+            margin: 0 1.8rem 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .project-tech {
+            margin: 0 1.8rem 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .project-tech span {
+            background: var(--bg-secondary);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+        .certifications ul, .leadership ul {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+        .certifications li, .leadership li {
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .certifications li:hover, .leadership li:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 0 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            position: relative;
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        /* Red accent circles as decorative elements */
+        .decor-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--accent-light);
+            pointer-events: none;
+            z-index: -2;
+        }
+        .decor-circle-1 {
+            width: 200px;
+            height: 200px;
+            top: -50px;
+            right: -50px;
+        }
+        .decor-circle-2 {
+            width: 120px;
+            height: 120px;
+            bottom: -30px;
+            left: -30px;
+            opacity: 0.6;
+        }
+        .decor-circle-3 {
+            width: 80px;
+            height: 80px;
+            top: 30%;
+            left: 10%;
+            opacity: 0.4;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .decor-circle-1 {
+                width: 120px;
+                height: 120px;
+                top: -30px;
+                right: -30px;
+            }
+            .decor-circle-2 {
+                width: 80px;
+                height: 80px;
+                bottom: -20px;
+                left: -20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative circles -->
+    <div class="decor-circle decor-circle-1"></div>
+    <div class="decor-circle decor-circle-2"></div>
+    <div class="decor-circle decor-circle-3"></div>
+    
+    <div class="container">
+        <header>
+            <h1>﻿AZLAN AHMED</h1>
+            <div class="contact-info">
+                azlanahmed211@gmail.com • GitHub • LinkedIn • LeetCode • Portfolio
+            </div>
+        </header>
+
+        <!-- Professional Summary -->
+        <section>
+            <h2>Professional Summary</h2>
+            <div class="section-content">
+                <p>Computer Engineering student with strong foundations in full-stack development, data structures & algorithms, and systems programming. Experienced in building production-ready web applications with modern frameworks, cloud technologies, and AI integration. Actively seeking software engineering internship opportunities to apply technical skills in real-world projects.</p>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section>
+            <h2>Education</h2>
+            <div class="section-content education">
+                <div>
+                    <h3 class="font-semibold text-gray-200">Bachelor of Technology in Computer Engineering</h3>
+                    <p class="text-sm text-gray-400">Vishwakarma Institute of Technology, Pune | 2023 – 2027</p>
+                    <p class="text-sm text-gray-500 mt-1">Relevant Coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Computer Networks, Web Engineering, Operating Systems, Cryptography, Digital Forensics, Web development, Compiler Design</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills -->
+        <section>
+            <h2>Technical Skills</h2>
+            <div class="section-content skills">
+                <span class="skill-tag">Programming Languages: Python, C, C++, JavaScript, HTML, CSS, SQL</span><span class="skill-tag">Web Technologies & Frameworks: React, Flask, FastAPI, Bootstrap, p5.js, WebSockets, Leaflet.js, Firebase, RESTful APIs</span><span class="skill-tag">Cloud & DevOps: Google Cloud Platform, Firebase Auth & Firestore, Git, GitHub, Docker</span><span class="skill-tag">Development Tools & IDEs: VS Code, Neovim (LSP, clangd), Claude Code, OpenClaw, Hermes, GNU Stow,opencode,</span><span class="skill-tag">Operating Systems: Linux (apt-based distributions), Windows - Proficient in command-line operations, system configuration, and shell scripting</span><span class="skill-tag">Core Competencies: Data Structures & Algorithms, Object-Oriented Programming, Database Design, Computer Networks, Version Control, Agile Development</span>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section>
+            <h2>Projects</h2>
+            <div class="section-content">
+                
+        <div class="project-card">
+            <h3 class="project-title">HemaVision – Blood Analysis Web Application</h3>
+            <p class="project-description">JavaScript, Firebase, JWT</p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Architected component-based web application using vanilla JavaScript with modular design patterns for blood analysis visualization</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Implemented secure authentication system using Firebase Auth with JWT token management and sessionStorage for persistent user sessions</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Integrated Firestore for real-time data synchronization and deployed to GitHub Pages with automated CI/CD pipeline</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">Live DDoS Attack Map – Real-Time Threat Intelligence Platform</h3>
+            <p class="project-description">FastAPI, PostgreSQL, WebSockets, Leaflet.js</p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Developed real-time global DDoS attack tracking system integrating Cloudflare and AbuseIPDB threat intelligence APIs</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Built interactive geolocation visualization using Leaflet.js with WebSocket connections for live attack stream updates</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Implemented PostgreSQL database with optimized queries for high-frequency data ingestion and historical attack pattern analysis</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">Cryptography Visualizer – Interactive Algorithm Learning Tool</h3>
+            <p class="project-description">p5.js, JavaScript, HTML/CSS</p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Created step-by-step visualizations for 10+ cryptographic algorithms including RSA, AES, SHA-1, Diffie-Hellman, and classical ciphers</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Designed modern UI with glassmorphism effects, custom typography, and responsive layout for enhanced user experience</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Implemented interactive tutorials with real-time parameter adjustments to demonstrate encryption/decryption processes</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">AI-Integrated Traffic Information System</h3>
+            <p class="project-description">Python, PINN Model, Machine Learning</p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Built real-time traffic flow prediction system using Physics-Informed Neural Networks (PINN) for route optimization</h3>
+            <p class="project-description"></p>
+        </div>
+        
+        <div class="project-card">
+            <h3 class="project-title">• Developed intelligent routing algorithm that maps quickest paths based on live traffic data and predictive modeling</h3>
+            <p class="project-description"></p>
+        </div>
+        
+            </div>
+        </section>
+
+        <!-- Certifications & Achievements -->
+        <section class="certifications">
+            <h2>Certifications & Achievements</h2>
+            <ul>
+                <li>• Google Cloud Career Readiness Program – Completed comprehensive cloud computing training</li><li>• Python Programming Certification – Advanced proficiency in Python for data structures and web development</li><li>• GitHub Certification – Version control and collaborative software development best practices</li>
+            </ul>
+        </section>
+
+        <!-- Leadership & Activities -->
+        <section class="leadership">
+            <h2>Leadership & Activities</h2>
+            <ul>
+                <li>• Technical Volunteer – Assisted in organizing college tech fests and coding competitions</li><li>• Web Development Contributor – Created and maintained responsive web pages for multiple college clubs and technical societies</li>
+            </ul>
+        </section>
+
+        <footer>
+            © 2026 ﻿AZLAN AHMED. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

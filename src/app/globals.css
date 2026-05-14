@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Japanese pixel art palette */
+  --color-sakura: #E8B4B8;
+  --color-sakura-light: #F2D7D9;
+  --color-sakura-dark: #D4919A;
+  --color-matcha: #8B7355;
+  --color-matcha-light: #C4A882;
+  --color-matcha-lighter: #D4C5B0;
+  --color-warm-white: #FAFAF8;
+  --color-warm-gray: #F5F3F0;
+  --color-ink: #2C2C2C;
+  --color-ink-light: #4A4A4A;
+}
+
+:root {
+  --radius: 0.375rem;
+  --background: #FAFAF8;
+  --foreground: #2C2C2C;
+  --card: #FFFFFF;
+  --card-foreground: #2C2C2C;
+  --popover: #FFFFFF;
+  --popover-foreground: #2C2C2C;
+  --primary: #2C2C2C;
+  --primary-foreground: #FAFAF8;
+  --secondary: #F5F3F0;
+  --secondary-foreground: #2C2C2C;
+  --muted: #F5F3F0;
+  --muted-foreground: #8B7355;
+  --accent: #E8B4B8;
+  --accent-foreground: #2C2C2C;
+  --destructive: #D4919A;
+  --border: #D4C5B0;
+  --input: #D4C5B0;
+  --ring: #C4A882;
+  --chart-1: #E8B4B8;
+  --chart-2: #8B7355;
+  --chart-3: #C4A882;
+  --chart-4: #D4919A;
+  --chart-5: #D4C5B0;
+  --sidebar: #FAFAF8;
+  --sidebar-foreground: #2C2C2C;
+  --sidebar-primary: #2C2C2C;
+  --sidebar-primary-foreground: #FAFAF8;
+  --sidebar-accent: #F2D7D9;
+  --sidebar-accent-foreground: #2C2C2C;
+  --sidebar-border: #D4C5B0;
+  --sidebar-ring: #C4A882;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Pixel art sakura petal animation */
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(110vh) translateX(80px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pixel-blink {
+  0%, 90%, 100% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-up {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Pixel border style */
+.pixel-border {
+  box-shadow:
+    -2px 0 0 0 #2C2C2C,
+    2px 0 0 0 #2C2C2C,
+    0 -2px 0 0 #2C2C2C,
+    0 2px 0 0 #2C2C2C;
+}
+
+.pixel-border-sakura {
+  box-shadow:
+    -2px 0 0 0 #E8B4B8,
+    2px 0 0 0 #E8B4B8,
+    0 -2px 0 0 #E8B4B8,
+    0 2px 0 0 #E8B4B8;
+}
+
+.pixel-border-matcha {
+  box-shadow:
+    -2px 0 0 0 #8B7355,
+    2px 0 0 0 #8B7355,
+    0 -2px 0 0 #8B7355,
+    0 2px 0 0 #8B7355;
+}
+
+/* Pixel corner decoration */
+.pixel-corner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: #E8B4B8;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F3F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4A882;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8B7355;
+}
+
+/* Selection color */
+::selection {
+  background: #F2D7D9;
+  color: #2C2C2C;
+}
