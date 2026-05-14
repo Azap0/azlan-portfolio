@@ -114,7 +114,6 @@ Tech: Python, PINN Model, Machine Learning
 Email:   azlanahmed211@gmail.com
 GitHub:  github.com/azlanahmed
 LinkedIn: linkedin.com/in/azlanahmed
-LeetCode: leetcode.com/azlanahmed
 
 Open to internship opportunities and collaborations!`,
 
@@ -137,6 +136,10 @@ Relevant Coursework:
 
   'certifications.txt': `CERTIFICATIONS
 =============
+
+[✓] Meta Back-End Developer Professional Certificate (Coursera)
+    Python, Django, APIs, SQL, Git, Cloud Hosting
+    Back-end development, portfolio projects, interview prep
 
 [✓] Google Cloud Career Readiness Program
     Comprehensive cloud computing training

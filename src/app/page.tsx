@@ -627,6 +627,7 @@ const skillCategories = [
 ]
 
 const certifications = [
+  'Meta Back-End Developer Professional Certificate (Coursera) — Back-end development with Python, Django, APIs, SQL, Git, and cloud hosting. Built portfolio projects and prepared for engineering interviews',
   'Google Cloud Career Readiness Program — Comprehensive cloud computing training',
   'Python Programming Certification — Advanced proficiency for data structures and web development',
   'GitHub Certification — Version control and collaborative development best practices',
@@ -751,9 +752,7 @@ export default function Home() {
               <a href="#" className="px-3 py-1.5 border border-[#D4C5B0] text-[#8B7355] hover:bg-[#E8B4B8] hover:text-[#2C2C2C] hover:border-[#E8B4B8] transition-all duration-200">
                 linkedin
               </a>
-              <a href="#" className="px-3 py-1.5 border border-[#D4C5B0] text-[#8B7355] hover:bg-[#E8B4B8] hover:text-[#2C2C2C] hover:border-[#E8B4B8] transition-all duration-200">
-                leetcode
-              </a>
+
             </motion.div>
           </section>
 
