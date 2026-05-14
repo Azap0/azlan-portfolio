@@ -38,3 +38,24 @@ Work Log:
 - Game has intro screen, playing state, and results screen with retry
 - Fixed lint error: moved localStorage highScore read to useState initializer
 - All lint checks pass, site renders correctly
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Add SSH terminal emulator to portfolio website
+
+Work Log:
+- Created SSHTerminal component at /src/components/SSHTerminal.tsx
+- Implemented full SSH terminal emulator with boot sequence animation
+- Added command parser supporting: help, whoami, ls, cat, cd, pwd, neofetch, date, echo, uname, uptime, clear, exit, sudo, game, sakura, ping, curl, ssh, vim/nano/emacs, apt/npm/pip, rm
+- Created virtual filesystem with: about.txt, skills.json, projects.md, contact.txt, education.txt, certifications.txt, secret.txt, README.md
+- Added tab completion for commands and file names
+- Added command history navigation (up/down arrows)
+- Added SSH boot sequence with key exchange animation
+- Added neofetch-style ASCII art system info display
+- Terminal styled with dark theme matching site palette (sakura pink for errors, matcha for prompts, warm tones for output)
+- Integrated terminal into main page via floating button (bottom-right) and nav "ssh" button
+- Terminal "game" command launches the secret sakura catch game
+- Terminal "cat secret.txt" hints at the Konami code easter egg
+- Fun easter eggs: sudo make me a sandwich, sudo rm -rf /, ssh command
+- All lint checks pass, site renders correctly

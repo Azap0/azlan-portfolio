@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
+import SSHTerminal from '@/components/SSHTerminal'
 
 /* ──────────── Pixel Art SVG Components ──────────── */
 
@@ -574,6 +575,7 @@ const leadership = [
 export default function Home() {
   const [activeProject, setActiveProject] = useState<number | null>(null)
   const [secretGame, setSecretGame] = useState(false)
+  const [showTerminal, setShowTerminal] = useState(false)
 
   const activateSecret = useCallback(() => {
     setSecretGame(true)
@@ -590,6 +592,29 @@ export default function Home() {
       <AnimatePresence>
         {secretGame && <SakuraCatchGame onClose={() => setSecretGame(false)} />}
       </AnimatePresence>
+
+      {/* SSH Terminal */}
+      <AnimatePresence>
+        {showTerminal && <SSHTerminal onClose={() => setShowTerminal(false)} onGame={() => setSecretGame(true)} />}
+      </AnimatePresence>
+
+      {/* Floating Terminal Button */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.5, type: 'spring', stiffness: 200 }}
+        onClick={() => setShowTerminal(true)}
+        className="fixed bottom-6 right-6 z-50 w-11 h-11 bg-[#2C2C2C] border-2 border-[#4A4A4A] hover:border-[#C4A882] flex items-center justify-center transition-colors group"
+        style={{ boxShadow: '3px 3px 0px 0px #8B7355' }}
+        title="Open Terminal"
+      >
+        <svg viewBox="0 0 16 16" className="w-4 h-4 text-[#C4A882] group-hover:text-[#E8B4B8] transition-colors" fill="currentColor">
+          <rect x="1" y="2" width="14" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="4" y="6" width="2" height="2" />
+          <rect x="7" y="6" width="2" height="2" />
+          <rect x="4" y="9" width="5" height="1" />
+        </svg>
+      </motion.button>
 
       {/* Subtle washi paper texture overlay */}
       <div
@@ -608,6 +633,7 @@ export default function Home() {
             <a href="#skills" className="hover:text-[#2C2C2C] transition-colors">skills</a>
             <a href="#projects" className="hover:text-[#2C2C2C] transition-colors">work</a>
             <a href="#contact" className="hover:text-[#2C2C2C] transition-colors">contact</a>
+            <button onClick={() => setShowTerminal(true)} className="hover:text-[#2C2C2C] transition-colors border border-[#D4C5B0] px-2 py-0.5 hover:border-[#8B7355]">ssh</button>
           </div>
         </div>
       </nav>
