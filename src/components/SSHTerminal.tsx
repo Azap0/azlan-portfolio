@@ -14,30 +14,53 @@ interface TermLine {
 /* ──────────── ASCII Art ──────────── */
 
 const SAKURA_ASCII = `
-   ,,,  ,,,  ,,,
- ,%%%%,%%%%,%%%%,
-,%%%%%::::%%%%%:::
-:::::%::::%::::::
-:::::%::::%::::::
- '%%%::::::%%%''
-   ''%%%%%%''
-     '''''`
+    ░░░░        ░░░░        ░░░░
+  ░░▓▓▓▓░░  ░░▓▓▓▓░░  ░░▓▓▓▓░░
+ ░░▓▓▓▓▓▓░░▓▓▓▓▓▓░░▓▓▓▓▓▓░░
+░░▓▓████▓▓▓▓████▓▓▓▓████▓▓░░
+░░▓▓████▓▓▓▓████▓▓▓▓████▓▓░░
+ ░░▓▓▓▓▓▓░░▓▓▓▓▓▓░░▓▓▓▓▓▓░░
+  ░░▓▓▓▓░░  ░░▓▓▓▓░░  ░░▓▓▓▓░░
+   ░░▓▓░░    ░░▓▓░░    ░░▓▓░░
+    ░░░░      ░░░░      ░░░░
+      ██        ██        ██`
 
 const NEOFETCH_ASCII = `
-    ╱╲
-   ╱  ╲      azlan@azlan.dev
-  ╱ ░░ ╲     ──────────────
- ╱ ░░░░ ╲    OS: AzlanOS 1.0 (Sakura)
-╱________╲   Host: Portfolio Server
-  │    │     Kernel: Next.js 16
-  │    │     Shell: sakura-sh 0.1
-  ╱╲  ╱╲     Terminal: azlan-term
- ╱  ╲╱  ╲    CPU: Brain @ 4.2 GHz
-╱   ╱╲   ╲   Memory: Lots of RAM
-│  ╱  ╲  │   Uptime: Since 2023
-│ │    │ │   Skills: Python, C++, JS
- ╲╱────╱    Theme: Sakura Pixel
+    ▄▄▄▄▄▄       azlan@azlan.dev
+   ██░░░░██      ──────────────
+  ██░░▓▓░░██    OS: AzlanOS 1.0 (Sakura)
+  ██░░▓▓░░██    Host: Portfolio Server
+  ██░░░░░░██    Kernel: Next.js 16
+   ██░░░░██      Shell: sakura-sh 0.1
+    ██████       Terminal: azlan-term
+   ██░░░░██      CPU: Brain @ 4.2 GHz
+  ██░░▓▓░░██    Memory: Lots of RAM
+  ██░░▓▓░░██    Uptime: Since 2023
+   ██░░░░██      Skills: Python, C++, JS
+    ▀▀▀▀▀▀       Theme: Sakura Pixel
 `
+
+const PIXEL_LANTERN = `
+     ██
+    ████
+   ██████
+   ██████
+   ██████
+    ████
+     ██
+     ██
+    ████`
+
+const PIXEL_MOUNTAIN = `
+        ██
+       ████
+      ██████
+     ████████
+    ██████████
+   ████████████
+  ██████████████
+ ████████████████
+██████████████████`
 
 /* ──────────── Command Handlers ──────────── */
 
@@ -132,12 +155,12 @@ Relevant Coursework:
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`,
 
   'README.md': `# Welcome to azlan.dev
-> A Japanese pixel art themed portfolio
 
 This terminal lets you explore my portfolio
 the old-fashioned way. Type 'help' to get started.
 
 Hint: Try 'neofetch' for system info,
+'lantern' or 'mountain' for pixel art,
 or 'cat secret.txt' if you're curious...`,
 }
 
@@ -174,6 +197,11 @@ function processCommand(input: string): TermLine[] {
   exit          Close the terminal
   sudo <cmd>    Try it... ;)
   game          Launch the secret game
+  sakura        Display sakura blossom
+  lantern       Display pixel lantern
+  mountain      Display pixel mountain
+  banner        Show AZLAN banner
+  pixel         Show pixel art
   
 Files: about.txt, skills.json, projects.md, contact.txt,
        education.txt, certifications.txt, secret.txt, README.md`,
@@ -298,6 +326,22 @@ projects/      skills/       docs/`,
       results.push({ id: Date.now(), type: 'ascii', content: SAKURA_ASCII })
       break
 
+    case 'lantern':
+      results.push({ id: Date.now(), type: 'ascii', content: PIXEL_LANTERN })
+      break
+
+    case 'mountain':
+      results.push({ id: Date.now(), type: 'ascii', content: PIXEL_MOUNTAIN })
+      break
+
+    case 'banner':
+      results.push({ id: Date.now(), type: 'ascii', content: `╔══════════════════════════════════════╗\n║  ░█▀▀█ ░█▀▀▀ ░█ ░█▀▀█  AZLAN.DEV  ║\n║  ░█▄▄█ ░█▀▀▀ ░█ ░█▄▄█             ║\n║  ░█ ░█ ░█▄▄▄ ░█ ░█ ░█             ║\n╚══════════════════════════════════════╝` })
+      break
+
+    case 'pixel':
+      results.push({ id: Date.now(), type: 'ascii', content: `░░░░░░░░░░░░░░░░░░░░░░░░░░\n░░ ██  ██  ██  ██  ██  ██ ░░\n░░                          ░░\n░░  ▄▄▄▄  ▄▄▄▄  ▄▄▄▄       ░░\n░░  ████  ████  ████  ██   ░░\n░░  ████  ████  ████  ██   ░░\n░░  ▀▀▀▀  ▀▀▀▀  ▀▀▀▀  ██   ░░\n░░                     ██   ░░\n░░  ░░░░  ░░░░  ░░░░       ░░\n░░░░░░░░░░░░░░░░░░░░░░░░░░` })
+      break
+
     case 'rm':
       results.push({ id: Date.now(), type: 'error', content: 'rm: Operation not permitted. This filesystem is read-only.' })
       break
@@ -373,8 +417,10 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
       { content: '  ╔═══════════════════════════════════════════╗', delay: 2000, type: 'ascii' },
       { content: '  ║                                           ║', delay: 2050, type: 'ascii' },
       { content: '  ║   Welcome to azlan.dev                    ║', delay: 2100, type: 'ascii' },
-      { content: '  ║   Japanese Pixel Art Portfolio Server      ║', delay: 2150, type: 'ascii' },
-      { content: '  ║                                           ║', delay: 2200, type: 'ascii' },
+      { content: '  ║   ░█▀▀█ ░█▀▀▀ ░█ ░█▀▀█                  ║', delay: 2150, type: 'ascii' },
+      { content: '  ║   ░█▄▄█ ░█▀▀▀ ░█ ░█▄▄█                  ║', delay: 2175, type: 'ascii' },
+      { content: '  ║   ░█ ░█ ░█▄▄▄ ░█ ░█ ░█                  ║', delay: 2200, type: 'ascii' },
+      { content: '  ║                                           ║', delay: 2225, type: 'ascii' },
       { content: '  ║   Type "help" to get started              ║', delay: 2250, type: 'ascii' },
       { content: '  ║   Type "exit" to disconnect               ║', delay: 2300, type: 'ascii' },
       { content: '  ║                                           ║', delay: 2350, type: 'ascii' },
@@ -488,7 +534,7 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
           setCurrentInput(`cat ${match}`)
         }
       } else {
-        const commands = ['help', 'whoami', 'ls', 'cat', 'cd', 'pwd', 'neofetch', 'date', 'echo', 'uname', 'uptime', 'clear', 'exit', 'sudo', 'game', 'sakura', 'ping', 'curl', 'ssh']
+        const commands = ['help', 'whoami', 'ls', 'cat', 'cd', 'pwd', 'neofetch', 'date', 'echo', 'uname', 'uptime', 'clear', 'exit', 'sudo', 'game', 'sakura', 'lantern', 'mountain', 'banner', 'pixel', 'ping', 'curl', 'ssh']
         const match = commands.find(c => c.startsWith(partial))
         if (match) {
           setCurrentInput(match)
@@ -531,13 +577,18 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
         {/* Title bar */}
         <div className="flex items-center justify-between px-3 py-1.5 bg-[#2C2C2C] border-b border-[#4A4A4A] select-none flex-shrink-0">
           <div className="flex items-center gap-2">
-            {/* Traffic lights */}
+            {/* Traffic lights - pixel art style */}
             <button onClick={onClose} className="w-2.5 h-2.5 bg-[#E8B4B8] hover:bg-[#D4919A] transition-colors" />
             <div className="w-2.5 h-2.5 bg-[#C4A882]" />
             <div className="w-2.5 h-2.5 bg-[#8B7355]" />
           </div>
-          <div className="text-[10px] text-[#8B7355] tracking-wider">
-            azlan@azlan.dev: ~  —  ssh
+          <div className="flex items-center gap-2">
+            {/* Pixel art sakura in title bar */}
+            <span className="text-[10px] text-[#E8B4B8]">&#x2588;&#x2588;</span>
+            <span className="text-[10px] text-[#8B7355] tracking-wider">
+              azlan@azlan.dev: ~  —  ssh
+            </span>
+            <span className="text-[10px] text-[#C4A882]">&#x2588;&#x2588;</span>
           </div>
           <div className="w-[52px]" />
         </div>
@@ -545,9 +596,15 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
         {/* Terminal body */}
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto p-3 sm:p-4 text-xs sm:text-sm leading-relaxed"
+          className="flex-1 overflow-y-auto text-xs sm:text-sm leading-relaxed"
           style={{ scrollbarWidth: 'thin', scrollbarColor: '#4A4A4A #1a1a1a' }}
         >
+          {/* Pixel art decorative strip */}
+          <div className="px-3 sm:px-4 pt-2 pb-0 select-none text-[8px] text-[#3a3a3a]">
+            &#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;&#x2591;&#x2588;
+          </div>
+
+          <div className="px-3 sm:px-4 pt-2">
           {lines.map((line) => (
             <div key={line.id} className={`${getLineColor(line.type)} whitespace-pre-wrap break-words`}>
               {line.content}
@@ -557,6 +614,7 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
           {/* Input line */}
           {connected && !booting && (
             <form onSubmit={handleSubmit} className="flex items-center mt-0.5">
+              <span className="text-[#E8B4B8] mr-1">&#x2588;</span>
               <span className="text-[#8B7355] mr-0 flex-shrink-0">azlan@dev:~$&nbsp;</span>
               <input
                 ref={inputRef}
@@ -577,6 +635,7 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
           {booting && (
             <span className="inline-block w-2 h-4 bg-[#C4A882] animate-pulse" />
           )}
+          </div>
         </div>
 
         {/* Status bar */}
@@ -585,10 +644,12 @@ export default function SSHTerminal({ onClose, onGame }: SSHTerminalProps) {
             <span className={connected ? 'text-[#C4A882]' : 'text-[#E8B4B8]'}>
               {connected ? '●' : '○'} SSH
             </span>
+            <span className="text-[#E8B4B8]">{String.fromCharCode(9608)}{String.fromCharCode(9608)}</span>
             <span>azlan@dev</span>
           </div>
           <div className="flex items-center gap-3">
             <span>utf-8</span>
+            <span className="text-[#C4A882]">{String.fromCharCode(9608)}{String.fromCharCode(9608)}</span>
             <span>bash</span>
           </div>
         </div>

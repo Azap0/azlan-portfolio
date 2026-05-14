@@ -89,6 +89,61 @@ function PixelHeart({ className }: { className?: string }) {
   )
 }
 
+function PixelMoon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={className} fill="currentColor">
+      <rect x="4" y="0" width="4" height="2" />
+      <rect x="2" y="2" width="2" height="2" />
+      <rect x="8" y="2" width="2" height="2" />
+      <rect x="0" y="4" width="2" height="2" />
+      <rect x="10" y="4" width="2" height="2" />
+      <rect x="0" y="6" width="2" height="4" />
+      <rect x="10" y="6" width="2" height="4" />
+      <rect x="0" y="10" width="2" height="2" />
+      <rect x="10" y="10" width="2" height="2" />
+      <rect x="2" y="12" width="2" height="2" />
+      <rect x="8" y="12" width="2" height="2" />
+      <rect x="4" y="14" width="4" height="2" />
+      <rect x="4" y="2" width="6" height="2" opacity="0.3" />
+      <rect x="2" y="4" width="8" height="2" opacity="0.3" />
+      <rect x="2" y="6" width="8" height="4" opacity="0.3" />
+      <rect x="2" y="10" width="8" height="2" opacity="0.3" />
+      <rect x="4" y="12" width="4" height="2" opacity="0.3" />
+      <rect x="6" y="4" width="2" height="2" opacity="0.5" />
+    </svg>
+  )
+}
+
+function PixelLantern({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 16" className={className} fill="currentColor">
+      <rect x="5" y="0" width="2" height="2" />
+      <rect x="4" y="2" width="4" height="1" />
+      <rect x="3" y="3" width="6" height="2" />
+      <rect x="2" y="5" width="8" height="2" />
+      <rect x="2" y="7" width="8" height="2" opacity="0.8" />
+      <rect x="3" y="9" width="6" height="2" opacity="0.6" />
+      <rect x="4" y="11" width="4" height="1" />
+      <rect x="5" y="12" width="2" height="2" />
+      <rect x="5" y="14" width="2" height="2" opacity="0.5" />
+    </svg>
+  )
+}
+
+function PixelMountain({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 12" className={className} fill="currentColor">
+      <rect x="10" y="0" width="2" height="2" />
+      <rect x="8" y="2" width="6" height="2" />
+      <rect x="6" y="4" width="10" height="2" />
+      <rect x="4" y="6" width="14" height="2" />
+      <rect x="2" y="8" width="18" height="2" />
+      <rect x="0" y="10" width="24" height="2" />
+      <rect x="11" y="2" width="2" height="4" opacity="0.5" />
+    </svg>
+  )
+}
+
 function PixelDivider() {
   return (
     <div className="flex items-center justify-center gap-2 my-8">
@@ -99,6 +154,18 @@ function PixelDivider() {
       <div className="w-1 h-1 bg-[#8B7355]" />
       <PixelDiamond className="w-3 h-3 text-[#E8B4B8]" />
       <div className="h-[2px] flex-1 bg-gradient-to-l from-transparent via-[#D4C5B0] to-[#D4C5B0]" />
+    </div>
+  )
+}
+
+function PixelArtBanner() {
+  return (
+    <div className="flex items-center justify-center gap-3 my-6 opacity-30">
+      <PixelMountain className="w-12 h-6 text-[#8B7355]" />
+      <PixelLantern className="w-4 h-5 text-[#E8B4B8]" />
+      <PixelMoon className="w-5 h-5 text-[#C4A882]" />
+      <PixelLantern className="w-4 h-5 text-[#E8B4B8]" />
+      <PixelMountain className="w-12 h-6 text-[#8B7355]" />
     </div>
   )
 }
@@ -644,16 +711,16 @@ export default function Home() {
 
           {/* ── HERO ── */}
           <section className="pt-16 sm:pt-24 pb-12 sm:pb-16 text-center relative">
-            {/* Torii gate decoration */}
+            {/* Pixel art hero decoration */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto w-40 sm:w-52 mb-8 relative"
+              className="mx-auto w-48 sm:w-64 mb-8 relative"
             >
               <img
-                src="/torii-gate.png"
-                alt="Pixel art torii gate"
+                src="/pixel-hero.png"
+                alt="Pixel art coding scene"
                 className="w-full h-auto object-contain"
                 style={{ imageRendering: 'pixelated' }}
               />
@@ -704,7 +771,7 @@ export default function Home() {
             </motion.div>
           </section>
 
-          <PixelDivider />
+          <PixelArtBanner />
 
           {/* ── ABOUT ── */}
           <section id="about" className="py-8">
@@ -713,11 +780,21 @@ export default function Home() {
                 <PixelStar className="w-4 h-4 text-[#E8B4B8]" />
                 <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[#2C2C2C]">About</h2>
               </div>
-              <PixelCard accent="matcha">
-                <p className="text-sm sm:text-base leading-relaxed text-[#4A4A4A]">
-                  Computer Engineering student with strong foundations in full-stack development, data structures &amp; algorithms, and systems programming. Experienced in building production-ready web applications with modern frameworks, cloud technologies, and AI integration. Actively seeking software engineering internship opportunities to apply technical skills in real-world projects.
-                </p>
-              </PixelCard>
+              <div className="flex gap-4 items-start">
+                <PixelCard accent="matcha" className="flex-1">
+                  <p className="text-sm sm:text-base leading-relaxed text-[#4A4A4A]">
+                    Computer Engineering student with strong foundations in full-stack development, data structures &amp; algorithms, and systems programming. Experienced in building production-ready web applications with modern frameworks, cloud technologies, and AI integration. Actively seeking software engineering internship opportunities to apply technical skills in real-world projects.
+                  </p>
+                </PixelCard>
+                <div className="hidden sm:block w-20 flex-shrink-0 opacity-40">
+                  <img
+                    src="/pixel-lantern.png"
+                    alt="Pixel art lantern"
+                    className="w-full h-auto object-contain"
+                    style={{ imageRendering: 'pixelated' }}
+                  />
+                </div>
+              </div>
             </AnimatedSection>
           </section>
 
@@ -728,24 +805,40 @@ export default function Home() {
                 <PixelStar className="w-4 h-4 text-[#C4A882]" />
                 <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[#2C2C2C]">Education</h2>
               </div>
-              <div className="relative pl-6 border-l-2 border-[#D4C5B0]">
-                <div className="absolute left-0 top-0 w-3 h-3 -translate-x-[7px] bg-[#E8B4B8] border-2 border-[#FAFAF8]" />
-                <PixelCard accent="sakura">
-                  <h3 className="text-base sm:text-lg font-medium text-[#2C2C2C] mb-1">
-                    Bachelor of Technology in Computer Engineering
-                  </h3>
-                  <p className="text-sm text-[#8B7355] mb-2" style={{ fontFamily: 'var(--font-mono), monospace' }}>
-                    Vishwakarma Institute of Technology, Pune &bull; 2023 – 2027
-                  </p>
-                  <p className="text-xs sm:text-sm text-[#4A4A4A] leading-relaxed">
-                    Relevant Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Computer Networks, Web Engineering, Operating Systems, Cryptography, Digital Forensics, Web Development, Compiler Design
-                  </p>
-                </PixelCard>
+              <div className="flex gap-4 items-start">
+                <div className="hidden sm:block w-16 flex-shrink-0 opacity-30 mt-2">
+                  <img
+                    src="/temple.png"
+                    alt="Pixel art temple"
+                    className="w-full h-auto object-contain"
+                    style={{ imageRendering: 'pixelated' }}
+                  />
+                </div>
+                <div className="relative pl-6 border-l-2 border-[#D4C5B0] flex-1">
+                  <div className="absolute left-0 top-0 w-3 h-3 -translate-x-[7px] bg-[#E8B4B8] border-2 border-[#FAFAF8]" />
+                  <PixelCard accent="sakura">
+                    <h3 className="text-base sm:text-lg font-medium text-[#2C2C2C] mb-1">
+                      Bachelor of Technology in Computer Engineering
+                    </h3>
+                    <p className="text-sm text-[#8B7355] mb-2" style={{ fontFamily: 'var(--font-mono), monospace' }}>
+                      Vishwakarma Institute of Technology, Pune &bull; 2023 – 2027
+                    </p>
+                    <p className="text-xs sm:text-sm text-[#4A4A4A] leading-relaxed">
+                      Relevant Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Computer Networks, Web Engineering, Operating Systems, Cryptography, Digital Forensics, Web Development, Compiler Design
+                    </p>
+                  </PixelCard>
+                </div>
               </div>
             </AnimatedSection>
           </section>
 
-          <PixelDivider />
+          <div className="flex items-center justify-center py-4 opacity-25">
+            <PixelLantern className="w-5 h-6 text-[#E8B4B8]" />
+            <div className="mx-4" />
+            <PixelMoon className="w-6 h-6 text-[#C4A882]" />
+            <div className="mx-4" />
+            <PixelLantern className="w-5 h-6 text-[#E8B4B8]" />
+          </div>
 
           {/* ── SKILLS ── */}
           <section id="skills" className="py-8">
@@ -783,13 +876,23 @@ export default function Home() {
           <PixelDivider />
 
           {/* ── PROJECTS ── */}
-          <section id="projects" className="py-8">
+          <section id="projects" className="py-8 relative">
             <AnimatedSection>
               <div className="flex items-center gap-3 mb-6">
                 <PixelStar className="w-4 h-4 text-[#C4A882]" />
                 <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[#2C2C2C]">Projects</h2>
               </div>
             </AnimatedSection>
+
+            {/* Floating sakura tree decoration */}
+            <div className="hidden lg:block absolute right-0 top-8 w-20 opacity-15 pointer-events-none">
+              <img
+                src="/sakura-tree.png"
+                alt=""
+                className="w-full h-auto"
+                style={{ imageRendering: 'pixelated' }}
+              />
+            </div>
 
             <div className="space-y-4">
               {projects.map((project, i) => (
@@ -862,7 +965,7 @@ export default function Home() {
             </div>
           </section>
 
-          <PixelDivider />
+          <PixelArtBanner />
 
           {/* ── CERTIFICATIONS ── */}
           <section className="py-8">
@@ -904,7 +1007,14 @@ export default function Home() {
             </AnimatedSection>
           </section>
 
-          <PixelDivider />
+          <div className="flex items-center justify-center py-4 opacity-20">
+            <img
+              src="/temple.png"
+              alt="Pixel art temple"
+              className="w-24 h-auto"
+              style={{ imageRendering: 'pixelated' }}
+            />
+          </div>
 
           {/* ── CONTACT ── */}
           <section id="contact" className="py-12 sm:py-16 text-center">
