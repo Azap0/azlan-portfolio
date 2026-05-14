@@ -711,20 +711,6 @@ export default function Home() {
 
           {/* ── HERO ── */}
           <section className="pt-16 sm:pt-24 pb-12 sm:pb-16 text-center relative">
-            {/* Pixel art hero decoration */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto w-48 sm:w-64 mb-8 relative"
-            >
-              <img
-                src="/pixel-hero.png"
-                alt="Pixel art coding scene"
-                className="w-full h-auto object-contain"
-                style={{ imageRendering: 'pixelated' }}
-              />
-            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
