@@ -23,3 +23,18 @@ Stage Summary:
 - Responsive design with mobile-first approach
 - Expandable project cards with animations
 - All content from original HTML faithfully represented
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Remove top nav icon and add secret easter egg mini-game
+
+Work Log:
+- Removed PixelSakura icon from nav bar, kept just "AZLAN.DEV" text
+- Added hidden "Sakura Catch" mini-game triggered by Konami code (↑↑↓↓←→←→BA)
+- Game features: falling pixel sakura petals to click/catch, 30s timer, combo multiplier system (x2 at 3-chain, x3 at 5-chain), high score saved in localStorage
+- Added PixelHeart SVG component for game HUD
+- Added useKonamiCode custom hook for keyboard sequence detection
+- Game has intro screen, playing state, and results screen with retry
+- Fixed lint error: moved localStorage highScore read to useState initializer
+- All lint checks pass, site renders correctly

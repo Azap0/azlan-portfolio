@@ -1,13 +1,13 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 /* ──────────── Pixel Art SVG Components ──────────── */
 
-function PixelSakura({ className }: { className?: string }) {
+function PixelSakura({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 16 16" className={className} fill="currentColor">
+    <svg viewBox="0 0 16 16" className={className} style={style} fill="currentColor">
       <rect x="6" y="0" width="4" height="2" />
       <rect x="4" y="2" width="8" height="2" />
       <rect x="2" y="4" width="4" height="2" />
@@ -54,6 +54,36 @@ function PixelStar({ className }: { className?: string }) {
       <rect x="9" y="1" width="2" height="2" />
       <rect x="1" y="9" width="2" height="2" />
       <rect x="9" y="9" width="2" height="2" />
+    </svg>
+  )
+}
+
+function PixelHeart({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" className={className} fill="currentColor">
+      <rect x="1" y="1" width="2" height="2" />
+      <rect x="3" y="0" width="2" height="1" />
+      <rect x="5" y="1" width="2" height="2" />
+      <rect x="7" y="0" width="2" height="1" />
+      <rect x="9" y="1" width="2" height="2" />
+      <rect x="1" y="3" width="2" height="2" />
+      <rect x="3" y="2" width="2" height="2" />
+      <rect x="5" y="3" width="2" height="2" />
+      <rect x="7" y="2" width="2" height="2" />
+      <rect x="9" y="3" width="2" height="2" />
+      <rect x="0" y="5" width="2" height="2" />
+      <rect x="2" y="5" width="2" height="2" />
+      <rect x="4" y="4" width="2" height="2" />
+      <rect x="6" y="4" width="2" height="2" />
+      <rect x="8" y="5" width="2" height="2" />
+      <rect x="10" y="5" width="2" height="2" />
+      <rect x="2" y="7" width="2" height="2" />
+      <rect x="4" y="6" width="2" height="2" />
+      <rect x="6" y="6" width="2" height="2" />
+      <rect x="8" y="7" width="2" height="2" />
+      <rect x="4" y="8" width="2" height="2" />
+      <rect x="6" y="8" width="2" height="2" />
+      <rect x="5" y="9" width="2" height="2" />
     </svg>
   )
 }
@@ -164,6 +194,317 @@ function PixelCard({ children, className, accent = 'sakura' }: { children: React
   )
 }
 
+/* ──────────── SECRET: Sakura Catch Mini-Game ──────────── */
+
+interface GamePetal {
+  id: number
+  x: number
+  y: number
+  speed: number
+  size: number
+  caught: boolean
+  color: string
+}
+
+const PETAL_COLORS = ['#E8B4B8', '#D4919A', '#F2D7D9', '#C4A882', '#8B7355']
+
+function SakuraCatchGame({ onClose }: { onClose: () => void }) {
+  const [gameState, setGameState] = useState<'intro' | 'playing' | 'done'>('intro')
+  const [score, setScore] = useState(0)
+  const [timeLeft, setTimeLeft] = useState(30)
+  const [petals, setPetals] = useState<GamePetal[]>([])
+  const [highScore, setHighScore] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sakura-catch-high')
+      return saved ? parseInt(saved, 10) : 0
+    } catch { return 0 }
+  })
+  const [combo, setCombo] = useState(0)
+  const [showCombo, setShowCombo] = useState(false)
+  const gameRef = useRef<HTMLDivElement>(null)
+  const petalIdRef = useRef(0)
+  const scoreRef = useRef(0)
+
+  useEffect(() => {
+    if (gameState !== 'playing') return
+    scoreRef.current = score
+  }, [score, gameState])
+
+  // Timer
+  useEffect(() => {
+    if (gameState !== 'playing') return
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          setGameState('done')
+          clearInterval(timer)
+          const finalScore = scoreRef.current
+          try {
+            const saved = localStorage.getItem('sakura-catch-high') || '0'
+            const best = parseInt(saved, 10)
+            if (finalScore > best) {
+              localStorage.setItem('sakura-catch-high', String(finalScore))
+              setHighScore(finalScore)
+            } else {
+              setHighScore(best)
+            }
+          } catch { /* noop */ }
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [gameState])
+
+  // Spawn petals
+  useEffect(() => {
+    if (gameState !== 'playing') return
+    const spawner = setInterval(() => {
+      const newPetal: GamePetal = {
+        id: petalIdRef.current++,
+        x: 10 + Math.random() * 80,
+        y: -5,
+        speed: 0.8 + Math.random() * 1.2,
+        size: 20 + Math.random() * 20,
+        caught: false,
+        color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)],
+      }
+      setPetals(prev => [...prev, newPetal])
+    }, 600)
+    return () => clearInterval(spawner)
+  }, [gameState])
+
+  // Move petals
+  useEffect(() => {
+    if (gameState !== 'playing') return
+    const mover = setInterval(() => {
+      setPetals(prev =>
+        prev
+          .map(p => p.caught ? p : { ...p, y: p.y + p.speed })
+          .filter(p => p.y < 110 && !p.caught)
+      )
+    }, 50)
+    return () => clearInterval(mover)
+  }, [gameState])
+
+  const catchPetal = useCallback((id: number) => {
+    setPetals(prev => prev.map(p => p.id === id ? { ...p, caught: true } : p))
+    setCombo(prev => {
+      const newCombo = prev + 1
+      if (newCombo >= 3) {
+        setShowCombo(true)
+        setTimeout(() => setShowCombo(false), 800)
+      }
+      return newCombo
+    })
+    setScore(prev => {
+      const comboMultiplier = combo >= 5 ? 3 : combo >= 3 ? 2 : 1
+      return prev + comboMultiplier
+    })
+    // Remove caught petal after animation
+    setTimeout(() => {
+      setPetals(prev => prev.filter(p => p.id !== id))
+    }, 200)
+  }, [combo])
+
+  const startGame = () => {
+    setScore(0)
+    setTimeLeft(30)
+    setPetals([])
+    setCombo(0)
+    petalIdRef.current = 0
+    scoreRef.current = 0
+    setGameState('playing')
+  }
+
+  const monoFont = { fontFamily: 'var(--font-mono), monospace' }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-[#2C2C2C]/60 backdrop-blur-sm" />
+
+      {/* Game container */}
+      <div className="relative w-full max-w-md" style={monoFont}>
+        {/* Pixel border frame */}
+        <div className="bg-[#FAFAF8] border-2 border-[#2C2C2C] relative overflow-hidden"
+          style={{ boxShadow: '6px 6px 0px 0px #8B7355' }}
+        >
+          {/* Title bar */}
+          <div className="flex items-center justify-between px-4 py-2 bg-[#2C2C2C] text-[#FAFAF8]">
+            <div className="flex items-center gap-2">
+              <PixelSakura className="w-3 h-3 text-[#E8B4B8]" />
+              <span className="text-xs tracking-wider">SAKURA CATCH</span>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-[#C4A882] hover:text-[#FAFAF8] text-xs border border-[#C4A882] px-1.5 py-0.5 hover:bg-[#8B7355] transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Game area */}
+          {gameState === 'intro' && (
+            <div className="p-8 text-center">
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="mb-4"
+              >
+                <PixelSakura className="w-12 h-12 text-[#E8B4B8] mx-auto" />
+              </motion.div>
+              <h3 className="text-lg text-[#2C2C2C] mb-2">Catch the Sakura</h3>
+              <p className="text-xs text-[#8B7355] mb-1">Click falling petals to catch them</p>
+              <p className="text-xs text-[#8B7355] mb-4">Chain catches for combo multiplier!</p>
+              {highScore > 0 && (
+                <p className="text-xs text-[#C4A882] mb-4">Best: {highScore}</p>
+              )}
+              <button
+                onClick={startGame}
+                className="px-6 py-2 bg-[#2C2C2C] text-[#FAFAF8] text-sm hover:bg-[#8B7355] transition-colors border-2 border-[#2C2C2C] hover:border-[#8B7355]"
+              >
+                Start
+              </button>
+            </div>
+          )}
+
+          {gameState === 'playing' && (
+            <div ref={gameRef} className="relative h-80 bg-gradient-to-b from-[#FAFAF8] to-[#F2D7D9]/30 overflow-hidden select-none">
+              {/* HUD */}
+              <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 py-2 bg-[#FAFAF8]/80 backdrop-blur-sm border-b border-[#D4C5B0] z-10">
+                <div className="flex items-center gap-1">
+                  <PixelHeart className="w-3 h-3 text-[#E8B4B8]" />
+                  <span className="text-xs text-[#2C2C2C]">{score}</span>
+                </div>
+                {combo >= 3 && (
+                  <span className="text-xs text-[#E8B4B8] animate-pulse">x{combo >= 5 ? 3 : 2} COMBO</span>
+                )}
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-[#8B7355]">{timeLeft}s</span>
+                </div>
+              </div>
+
+              {/* Timer bar */}
+              <div className="absolute top-[30px] left-0 right-0 h-1 bg-[#D4C5B0]">
+                <div
+                  className="h-full transition-all duration-1000 ease-linear"
+                  style={{
+                    width: `${(timeLeft / 30) * 100}%`,
+                    backgroundColor: timeLeft > 10 ? '#C4A882' : '#E8B4B8',
+                  }}
+                />
+              </div>
+
+              {/* Petals */}
+              {petals.map((petal) => (
+                <button
+                  key={petal.id}
+                  className="absolute cursor-pointer hover:scale-125 transition-transform duration-100 focus:outline-none"
+                  style={{
+                    left: `${petal.x}%`,
+                    top: `${petal.y}%`,
+                    transform: `rotate(${petal.y * 3}deg)`,
+                  }}
+                  onClick={() => catchPetal(petal.id)}
+                >
+                  <PixelSakura
+                    className="transition-opacity duration-200"
+                    style={{ width: petal.size, height: petal.size, color: petal.color, opacity: petal.caught ? 0 : 0.9 }}
+                  />
+                </button>
+              ))}
+
+              {/* Combo popup */}
+              <AnimatePresence>
+                {showCombo && (
+                  <motion.div
+                    initial={{ scale: 0.5, opacity: 0, y: 20 }}
+                    animate={{ scale: 1.2, opacity: 1, y: 0 }}
+                    exit={{ scale: 1, opacity: 0, y: -20 }}
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                  >
+                    <span className="text-2xl text-[#E8B4B8] tracking-widest" style={{ textShadow: '2px 2px 0px #2C2C2C' }}>
+                      COMBO!
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+
+          {gameState === 'done' && (
+            <div className="p-8 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 200 }}
+              >
+                <PixelStar className="w-12 h-12 text-[#C4A882] mx-auto mb-4" />
+              </motion.div>
+              <h3 className="text-lg text-[#2C2C2C] mb-1">Time&apos;s Up!</h3>
+              <p className="text-3xl text-[#2C2C2C] mb-1 font-light">{score}</p>
+              <p className="text-xs text-[#8B7355] mb-1">petals caught</p>
+              {score >= highScore && score > 0 && (
+                <p className="text-xs text-[#E8B4B8] mb-3 tracking-wider">NEW BEST!</p>
+              )}
+              {score < highScore && (
+                <p className="text-xs text-[#C4A882] mb-3">Best: {highScore}</p>
+              )}
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <button
+                  onClick={startGame}
+                  className="px-4 py-1.5 bg-[#2C2C2C] text-[#FAFAF8] text-xs hover:bg-[#8B7355] transition-colors"
+                >
+                  Retry
+                </button>
+                <button
+                  onClick={onClose}
+                  className="px-4 py-1.5 border border-[#D4C5B0] text-[#8B7355] text-xs hover:bg-[#F2D7D9] transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+/* ──────────── Konami Code Hook ──────────── */
+
+const KONAMI_SEQUENCE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
+
+function useKonamiCode(onActivate: () => void) {
+  const indexRef = useRef(0)
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === KONAMI_SEQUENCE[indexRef.current]) {
+        indexRef.current++
+        if (indexRef.current === KONAMI_SEQUENCE.length) {
+          indexRef.current = 0
+          onActivate()
+        }
+      } else {
+        indexRef.current = 0
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onActivate])
+}
+
 /* ──────────── Project Data ──────────── */
 
 const projects = [
@@ -232,11 +573,23 @@ const leadership = [
 
 export default function Home() {
   const [activeProject, setActiveProject] = useState<number | null>(null)
+  const [secretGame, setSecretGame] = useState(false)
+
+  const activateSecret = useCallback(() => {
+    setSecretGame(true)
+  }, [])
+
+  useKonamiCode(activateSecret)
 
   return (
     <div className="min-h-screen flex flex-col relative font-[var(--font-inter)]" style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}>
       {/* Falling Sakura Petals */}
       <FallingPetals />
+
+      {/* Secret Game */}
+      <AnimatePresence>
+        {secretGame && <SakuraCatchGame onClose={() => setSecretGame(false)} />}
+      </AnimatePresence>
 
       {/* Subtle washi paper texture overlay */}
       <div
@@ -249,10 +602,7 @@ export default function Home() {
       {/* ─── NAV ─── */}
       <nav className="sticky top-0 z-50 bg-[#FAFAF8]/90 backdrop-blur-md border-b border-[#D4C5B0]/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <PixelSakura className="w-4 h-4 text-[#E8B4B8]" />
-            <span className="text-sm font-medium tracking-wide text-[#2C2C2C]" style={{ fontFamily: 'var(--font-mono), monospace' }}>AZLAN.DEV</span>
-          </div>
+          <span className="text-sm font-medium tracking-wide text-[#2C2C2C]" style={{ fontFamily: 'var(--font-mono), monospace' }}>AZLAN.DEV</span>
           <div className="flex items-center gap-4 text-xs text-[#8B7355]" style={{ fontFamily: 'var(--font-mono), monospace' }}>
             <a href="#about" className="hover:text-[#2C2C2C] transition-colors">about</a>
             <a href="#skills" className="hover:text-[#2C2C2C] transition-colors">skills</a>
